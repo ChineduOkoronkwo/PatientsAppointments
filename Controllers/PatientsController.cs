@@ -18,16 +18,18 @@ namespace TestWebApi.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<Patient>> GetPatients()
+        public ActionResult<IList<PatientDto>> GetPatients()
         {
-            var result = _genericRepo.ListAll().Result;
+            var list = _genericRepo.ListAll().Result;
+            var result = _mapper.Map<IList<Patient>, IList<PatientDto>>(list);
             return Ok(result);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<Patient> GetPatientById(int id)
+        public ActionResult<PatientDto> GetPatientById(int id)
         {
-            var result = _genericRepo.GetById(id).Result;
+            var patient = _genericRepo.GetById(id).Result;
+            var result = _mapper.Map<Patient, PatientDto>(patient);
             return Ok(result);
         }
 

@@ -1,8 +1,10 @@
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TestWebApi.Data;
 using TestWebApi.Data.Entities;
+using TestWebApi.Dtos;
 using TestWebApi.Services;
 
 namespace TestWebApi.Controllers
@@ -15,7 +17,7 @@ namespace TestWebApi.Controllers
         {
             _appointmentService = appointmentService;
         }
-
+        
         [HttpGet]
         public ActionResult<IList<Appointment>> GetAppointments()
         {
@@ -44,9 +46,14 @@ namespace TestWebApi.Controllers
             return Ok(result);
         }
 
-        [HttpDelete]
-        public ActionResult<bool> DeleteAppointment(Appointment appointment)
+        [HttpDelete("{id}")]
+        public ActionResult<bool> DeleteAppointment(int id)
         {
+            var appointment = _appointmentService.GetById(id).Result;
+            if (appointment == null)
+            {
+                return false;
+            }
             var result = _appointmentService.Delete(appointment).Result;
             return Ok(result);
         }

@@ -33,7 +33,7 @@ namespace TestWebApi.Data
                     var appointment = new Appointment()
                     {
                         PatientId = i,
-                        AppointmentTime = DateTimeOffset.Now.AddDays(i * 5).AddHours(i * 2),
+                        AppointmentTime = DateTime.Now.AddDays(i * 5).AddHours(i * 2),
                         Notes = "Give patient instructions on how to use prescribed medications."
                     };
                     appointmentService.Create(appointment);
